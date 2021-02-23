@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_professo.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+        <h:form id="formListaAlun" style="margin: 5px">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{matriculaMB.turmas}" var="turmas"
+                         paginatorPosition="bottom" lazy="true"
+                         paginator="true" rows="10">
+                <f:facet name="header">Lista de Turmas</f:facet>
+                <p:column headerText="Sigla">
+                    #{turmas.sigla}
+                </p:column>
+                <p:column headerText="Período">
+                    #{turmas.periodo}
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Selecionar"
+                                     actionListener="#{matriculaMB.setTurmaSelecionada(turmas)}"
+                                     process="@all"
+                                     update=":formListaAlun:listMatriculaByTurma"
+                                     styleClass="botao"
+                                     style="background-color: #3282f2;
+                                     text-align: center; width: 200px; height: 40px; text-align: center;"/>
+                </p:column>
+            </p:dataTable>
+            
+            <p:dataTable id="listMatriculaByTurma" emptyMessage="Nenhum registro encontrado" 
+                         value="#{matriculaMB.maticulaByTurma}" var="matricula"
+                         paginatorPosition="bottom" lazy="true"
+                         paginator="true" rows="10">
+                <f:facet name="header">Lista de Alunos</f:facet>
+                <p:column headerText="Nome">
+                    #{matricula.aluno.nome}
+                </p:column>
+                <p:column headerText="Matrícula">
+                    #{matricula.matricula}
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+</ui:decorate>

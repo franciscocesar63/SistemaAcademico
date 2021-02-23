@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="/templates/template_administrador.xhtml"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="conteudo">
+
+
+
+        <h:form id="formCadastroDiretor" class="menu">
+            <div class="ui-g" >
+                <div class="ui-g-6">
+                    <p:panel id="pessoais" header="Dados Pessoais">
+
+                        <h:panelGrid columns="2" style="border-style: none !important;" >
+                            <p:outputLabel value="Nome:" style="color: black; margin-right: 22px" for="nome"/>
+                            <p:inputText id="nome" value="#{diretorMB.diretor.nome}" style="width: 250px"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="CPF:" style="color: black; margin-right: 35px" for="cpf"/>
+                            <p:inputMask id="cpf" mask="999.999.999-99" value="#{diretorMB.diretor.cpf}" style="width: 130px"/>
+                            <p:outputLabel value="Telefone:"  style="color: black" for="telefone"/>
+                            <p:inputMask id="telefone" mask="(99)9.9999-9999" value="#{diretorMB.contato.telefone}" style="width: 130px"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" style="border-style: none !important;" >
+                            <p:outputLabel value="Titulação:" style="color: black" for="titulacao"/>
+                            <p:inputText id="titulacao" value="#{diretorMB.diretor.titulacao}" style="width: 250px"/>
+                            <p:outputLabel value="Email:" style="color: black" for="email"/>
+                            <p:inputText id="email" value="#{diretorMB.contato.email}" style="width: 250px"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </div>
+
+                <div class="ui-g-6">
+                    <p:panel id="endereco" header="Endereço">
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="Rua:" style="color: black; margin-right: 20px" for="rua" />
+                            <p:inputText id="rua" value="#{diretorMB.endereco.logradouro}" style="width: 250px"/>
+                            <p:outputLabel value="Nº(Casa):" style="color: black; " for="numeroCasa"/>
+                            <p:inputText id="numeroCasa" value="#{diretorMB.endereco.numero}" style="width: 50px"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="Bairro:" style="color: black; margin-right: 4px" for="bairro"/>
+                            <p:inputText id="bairro" value="#{diretorMB.endereco.bairro}" style="width: 250px"/>
+                            <p:outputLabel  value="CEP:" style="color: black" for="cep"/>
+                            <p:inputMask id="cep" mask="99.999-999" value="#{diretorMB.endereco.cep}" style="width: 100px">
+                                <p:ajax event="blur" listener="#{diretorMB.buscarEndereco()}"
+                                        process="cep"
+                                        update="localidade uf"/>
+                            </p:inputMask>
+                        </h:panelGrid>
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="Cidade:" style="color: black" for="localidade"/>
+                            <p:inputText id="localidade" value="#{diretorMB.endereco.localidade}" style="width: 250px"/>
+                            <p:outputLabel value="Estado:" style="color: black" for="uf" />
+                            <p:inputText id="uf" value="#{diretorMB.endereco.uf}" style="width: 50px"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </div>
+            </div>
+            <div class="ui-g" align="center">
+                <div class="ui-g-12">
+                    <p:panel id="conta" header="Conta">
+
+                        <p:commandButton value="SALVAR" 
+                                         process="@form"
+                                         resetValues="true"
+                                         update="@all"
+                                         styleClass="botao"
+                                         actionListener="#{diretorMB.salvarCliente()}"
+                                         />
+
+                        <p:commandButton value="LIMPAR" 
+                                         resetValues="true" 
+                                         update="@form" 
+                                         process="@this"
+                                         styleClass="botao"
+                                         />
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form id="formListaDiretor">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{diretorMB.diretorsLazy}" 
+                         var="diretor" 
+                         style="border-left: none !important; border-right: none !important"
+                         paginatorPosition="bottom" lazy="true"
+                         paginator="true" rows="5">
+
+                <f:facet name="header">Lista de Diretores Cadastrados</f:facet>
+                <p:column headerText="Nome">
+                    #{diretor.nome}
+                </p:column>
+                <p:column headerText="CPF" style="width: 115px">
+                    #{diretor.cpf}
+                </p:column>
+                <p:column headerText="Email">
+                    #{diretor.contato.email}
+                </p:column>
+                <p:column headerText="Titulação">
+                    #{diretor.titulacao}
+                </p:column>
+
+                <p:column headerText="Cidade - UF">
+                    #{diretor.endereco.localidade} - #{diretor.endereco.uf}
+                </p:column>
+                <p:column headerText="Telefone" style="width: 125px">
+                    #{diretor.contato.telefone}
+                </p:column>
+                <p:column headerText="Opção">
+                    <p:commandButton value="EDITAR" 
+                                     update="formCadastroDiretor"
+                                     actionListener="#{diretorMB.setDiretor(diretor)}"
+                                     process="@this"/>
+
+                    <p:commandButton value="EXCLUIR"
+                                     process="@this"
+                                     actionListener="#{diretorMB.remover(diretor)}"
+                                     update="@form"/>
+
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>

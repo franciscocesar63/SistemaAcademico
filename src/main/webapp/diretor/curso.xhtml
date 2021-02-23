@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_direto.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+
+        <h:form id="formCadastroCurso" class="menu">
+            <div class="ui-g" align="center">
+                <div class="ui-g-12">
+                    <p:panel id="curso" header="Curso">
+                        <h:panelGrid columns="2" style="border-style: none !important; margin-bottom: 18px;">
+                            <p:outputLabel value="Nome:" style="color: black" for="inputNome"/>
+                            <p:inputText id="inputNome" value="#{cursoMB.curso.nome}" style="width: 250px"/>
+                            <p:outputLabel value="Área:" style="color: black" for="inputCpf"/>
+                            <p:inputText id="inputCpf" value="#{cursoMB.curso.area}" style="width: 250px"/>
+                        </h:panelGrid>
+                        <p:commandButton value="SALVAR" 
+                                         process="@form"
+                                         update="@all"
+                                         styleClass="botao"
+                                         actionListener="#{cursoMB.salvarCurso()}"
+                                         style="background-color: green;
+                                         text-align: center; width: 200px; height: 40px; text-align: center;
+                                         margin-left: 18px;"/>
+                        <p:commandButton value="LIMPAR" 
+                                         resetValues="true" 
+                                         update="@form" 
+                                         process="@this"
+                                         styleClass="botao"
+                                         style="background-color: #3282f2;
+                                         text-align: center; width: 200px; height: 40px; text-align: center;
+                                         margin-left: 18px;"/>
+
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+        <h:form id="formListaCoordenador" style=" margin: 5px">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{cursoMB.all}" var="curso"
+                         paginatorPosition="bottom" lazy="true"
+                         paginator="true" rows="5">
+
+                <f:facet name="header">Lista de Cursos</f:facet>
+                <p:column headerText="Nome">
+                    #{curso.nome}
+                </p:column>
+                <p:column headerText="Área">
+                    #{curso.area}
+                </p:column>
+
+                <p:column headerText="Ação" style="text-align: center; width: 140px">
+                    <p:commandButton value="EDITAR" 
+                                     update="formCadastroCurso"
+                                     actionListener="#{cursoMB.setCurso(curso)}"
+                                     process="@form"
+                                     style="background-color: #3282f2; margin: 5px; font-size: 10px"/>
+                    <p:commandButton value="EXCLUIR"
+                                     process="@form"
+                                     actionListener="#{cursoMB.removerCurso(curso)}"
+                                     update="@form"
+                                     style="background-color: red; font-size: 10px"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_professo.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+        <h:form id="formListaDisciplinas">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{alunoDisciplinaMB.disciplinasVinculadasRepeticao}" var="vinculo"
+                         paginatorPosition="bottom"
+                         paginator="true" rows="5">
+
+                <f:facet name="header">Lista de Disciplinas</f:facet>
+                <p:column headerText="Nome">
+                    #{vinculo.disciplina.nome}
+                </p:column>
+                <p:column headerText="Aluno">
+                    #{vinculo.alunoMatriculado.nome}
+                </p:column>
+                <p:column headerText="Nome">
+                    <p:commandButton value="Selecionar"
+                                     actionListener="#{alunoDisciplinaMB.setAlunoNota(vinculo)}"
+                                     process="@all"
+                                     update="@form"
+                                     styleClass="botao"
+                                     />
+                </p:column>
+            </p:dataTable>
+            <p:dialog id="formNotas" header="Definir nota do Aluno" widgetVar="formNotas" 
+                      closable="true" closeOnEscape="true">
+                Disciplina #{alunoDisciplinaMB.alunoNota.disciplina.nome} <br/> <br/>
+                Aluno: <p:outputLabel value="#{alunoDisciplinaMB.alunoNota.alunoMatriculado.nome}"/> <br/> <br/>
+                Nota 1: <p:inputNumber value="#{alunoDisciplinaMB.alunoNota.nota1}" /> <br/>
+                Nota 2: <p:inputNumber value="#{alunoDisciplinaMB.alunoNota.nota2}" /> <br/>
+                Nota 3: <p:inputNumber value="#{alunoDisciplinaMB.alunoNota.nota3}" /> <br/>
+                Média: <p:outputLabel value="#{alunoDisciplinaMB.alunoNota.media}"/> <br/>
+                Situação: <p:outputLabel value="#{alunoDisciplinaMB.alunoNota.situacao!=''?alunoDisciplinaMB.alunoNota.situacao:'Média não gerada'}"/>
+                <br/>
+                <br/>
+                <br/>
+                <p:commandButton value="Salvar"
+                                 actionListener="#{alunoDisciplinaMB.salvarAlteracao()}"
+                                 process="@all"
+                                 update="@form"
+                                 styleClass="botao"
+                                 />
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+</ui:decorate>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_coordenado.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+        <h:form id="formAluno">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{matriculaMB.alunosCurso}" var="aluno"
+                         >
+
+                <f:facet name="header">Selecione um Aluno</f:facet>
+                <p:column headerText="Nome">
+                    #{aluno.nome}
+                </p:column>
+                <p:column headerText="Email" style="width: 115px">
+                    #{aluno.login}
+                </p:column>
+                <p:column headerText="CPF" style="width: 115px">
+                    #{aluno.cpf}
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Selecionar"
+                                     actionListener="#{alunoDisciplinaMB.setAlunoSelecionado(aluno)}"
+                                     process="@all"
+                                     styleClass="botao"
+                                     style="background-color: #3282f2;
+                                     text-align: center; width: 200px; height: 40px; text-align: center;"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        >
+        <h:form id="formlistDisciplinas">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{cursoMB.disciplinasCurso}" var="disciplina"
+                         >
+
+                <f:facet name="header">Selecione as Disciplinas Desejadas</f:facet>
+                <p:column headerText="ID">
+                    #{disciplina.id}
+                </p:column>
+                <p:column headerText="Nome" style="width: 115px">
+                    #{disciplina.nome}
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Selecionar"
+                                     actionListener="#{alunoDisciplinaMB.addListDisciplina(disciplina)}"
+                                     process="@all"
+                                     styleClass="botao"
+                                     style="background-color: #3282f2;
+                                     text-align: center; width: 200px; height: 40px; text-align: center;"/>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <br/>
+            <p:commandButton value="Visualizar"
+                             actionListener="#{alunoDisciplinaMB.mostrarDialog()}"
+                             styleClass="botao"
+                             update="disciplinasSelect"
+                             style="background-color: #3282f2;
+                             text-align: center; width: 200px; height: 40px; text-align: center;"/>
+            <p:dialog id="disciplinasSelect" header="Disciplinas Selecionadas" widgetVar="disciplinasSelect" 
+                      closable="true" closeOnEscape="true">
+                <p:dataList value="#{alunoDisciplinaMB.disciplinas}" var="d">
+                    <p:outputLabel value="#{d.nome}"/>
+                </p:dataList>
+                Aluno Selecionado: <p:outputLabel value="#{alunoDisciplinaMB.alunoSelecionado.nome}"/>
+            </p:dialog>
+            <p:commandButton value="Vincular"
+                             actionListener="#{alunoDisciplinaMB.vincularAlunoDisciplina()}"
+                             styleClass="botao"
+                             process="@this"
+                             style="background-color: #3282f2;
+                             text-align: center; width: 200px; height: 40px; text-align: center;"/>
+        </h:form>
+
+    </ui:define>
+</ui:decorate>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_direto.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+
+        <h:form id="formCadastroCoordenador" class="menu">
+            <div class="ui-g">
+                <div class="ui-g-6">
+                    <p:panel id="pessoais" header="Dados Pessoais">
+                        <h:panelGrid columns="2" style="border-style: none !important;" >
+                            <p:outputLabel value="Nome:" style="color: black;" for="nome"/>
+                            <p:inputText id="nome" value="#{coordenadorMB.coordenador.nome}" style="width: 250px"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="CPF:" style="color: black; margin-right: 13px" for="cpf"/>
+                            <p:inputMask id="cpf" mask="999.999.999-99" value="#{coordenadorMB.coordenador.cpf}" style="width: 130px"/>
+                            <p:outputLabel value="Telefone:"  style="color: black" for="telefone"/>
+                            <p:inputMask id="telefone" mask="(99)9.9999-9999" value="#{coordenadorMB.contato.telefone}" style="width: 130px"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" style="border-style: none !important;" >
+                            <p:outputLabel value="Email:" style="color: black; margin-right: 3px" for="email"/>
+                            <p:inputText id="email" value="#{coordenadorMB.contato.email}" style="width: 250px"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </div>
+                <div class="ui-g-6">
+                    <p:panel id="endereco" header="Endereço">
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="Rua:" style="color: black; margin-right: 20px" for="rua" />
+                            <p:inputText id="rua" value="#{coordenadorMB.endereco.logradouro}" style="width: 250px"/>
+                            <p:outputLabel value="Nº(Casa):" style="color: black; " for="numeroCasa"/>
+                            <p:inputText id="numeroCasa" value="#{coordenadorMB.endereco.numero}" style="width: 50px"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="Bairro:" style="color: black; margin-right: 4px" for="bairro"/>
+                            <p:inputText id="bairro" value="#{coordenadorMB.endereco.bairro}" style="width: 250px"/>
+                            <p:outputLabel  value="CEP:" style="color: black" for="cep"/>
+                            <p:inputMask id="cep" mask="99.999-999" value="#{coordenadorMB.endereco.cep}" style="width: 100px">
+                                <p:ajax event="blur" listener="#{coordenadorMB.all}"
+                                        process="cep"
+                                        update="localidade uf"/>
+                            </p:inputMask>
+                        </h:panelGrid>
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="Cidade:" style="color: black" for="localidade"/>
+                            <p:inputText id="localidade" value="#{coordenadorMB.endereco.localidade}" style="width: 250px"/>
+                            <p:outputLabel value="Estado:" style="color: black" for="uf" />
+                            <p:inputText id="uf" value="#{coordenadorMB.endereco.uf}" style="width: 50px"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </div>
+            </div>
+
+            <div class="ui-g" align="center">
+                <div class="ui-g-12">
+                    <p:panel id="conta" header="Conta">
+
+                        <p:commandButton value="SALVAR" 
+                                         process="@form"
+                                         resetValues="true"
+                                         update="@all"
+                                         styleClass="botao"
+                                         actionListener="#{coordenadorMB.salvarCoordenador()}"
+                                         style="background-color: green;
+                                         text-align: center; width: 200px; height: 40px; text-align: center;
+                                         margin-left: 18px;"/>
+                        <p:commandButton value="LIMPAR" 
+                                         resetValues="true" 
+                                         update="@form" 
+                                         process="@this"
+                                         styleClass="botao"
+                                         style="background-color: #3282f2;
+                                         text-align: center; width: 200px; height: 40px; text-align: center;
+                                         margin-left: 18px;"/>
+
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+        <h:form id="formListaCoordenador" style=" margin: 5px">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{coordenadorMB.all}" var="coordenador"
+                         paginatorPosition="bottom" lazy="true"
+                         paginator="true" rows="5">
+
+                <f:facet name="header">Lista de Coordenadores</f:facet>
+                <p:column headerText="Nome">
+                    #{coordenador.nome}
+                </p:column>
+                <p:column headerText="CPF" style="width: 115px">
+                    #{coordenador.cpf}
+                </p:column>
+                <p:column headerText="Email">
+                    #{coordenador.contato.email}
+                </p:column>
+                <p:column headerText="Rua">
+                    #{coordenador.endereco.logradouro}
+                </p:column>
+                <p:column headerText="Cidade - UF">
+                    #{coordenador.endereco.localidade} - #{coordenador.endereco.uf}
+                </p:column>
+                <p:column headerText="Telefone" style="width: 125px">
+                    #{coordenador.contato.telefone}
+                </p:column>
+                <p:column headerText="Ação" style="text-align: center; width: 140px">
+                    <p:commandButton value="EDITAR" 
+                                     update="formCadastroCoordenador"
+                                     actionListener="#{coordenadorMB.setCoordenador(coordenador)}"
+                                     process="@form"
+                                     style="background-color: #3282f2; margin: 5px; font-size: 10px"/>
+                    <p:commandButton value="EXCLUIR"
+                                     process="@form"
+                                     actionListener="#{coordenadorMB.remover(coordenador)}"
+                                     update="@form"
+                                     style="background-color: red; font-size: 10px"/>
+                    <p:commandButton value="VINCULAR"
+                                     process="@form"
+                                     action="#{coordenadorMB.salvarCoordenadorParaVinculo(coordenador)}"
+                                     style="background-color: #3282f2; margin: 3px; font-size: 10px"
+                                     actionListener="vincular.xhtml?faces-redirect=true"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>

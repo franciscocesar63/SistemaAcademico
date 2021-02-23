@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+<?xml version="1.0" encoding="UTF-8"?>
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_coordenado.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+
+        <h:form id="formCadastroAluno" class="menu">
+            <div class="ui-g" align="center">
+                <div class="ui-g-12">
+                    <p:panel id="pessoais" header="Disciplina">
+                        <h:panelGrid columns="2" style="border-style: none !important; margin: 18px;">
+                            <p:outputLabel value="Nome:" style="color: black" for="inputNome"/>
+                            <p:inputText id="inputNome" value="#{displinaMB.disciplina.nome}" style="width: 250px"/>
+
+                        </h:panelGrid>
+                        <p:commandButton value="SALVAR" 
+                                         process="@form"
+                                         update="@all"
+                                         styleClass="botao"
+                                         actionListener="#{displinaMB.salvar()}"
+                                         />
+                        <p:commandButton value="LIMPAR" 
+                                         resetValues="true" 
+                                         update="@form" 
+                                         process="@this"
+                                         styleClass="botao"
+                                         />
+
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form id="formListaTurma" style=" margin: 5px">
+            <p:dataTable emptyMessage="Nenhum registro encontrado" value="#{displinaMB.all}" var="disciplina"
+                         paginatorPosition="bottom"
+                         paginator="true" rows="5">
+                <f:facet name="header">Lista de Disciplinas</f:facet>
+                <p:column headerText="Nome">
+                    #{disciplina.nome}
+                </p:column>
+
+                <p:column headerText="Ação" >
+                    <p:commandButton value="EDITAR" 
+                                     update="formCadastroAluno"
+                                     actionListener="#{displinaMB.setDisciplina(disciplina)}"
+                                     process="@form"
+                                     />
+                    <p:commandButton value="EXCLUIR"
+                                     process="@form"
+                                     actionListener="#{displinaMB.remover(disciplina)}"
+                                     update="@form"
+                                     />
+                    <p:commandButton value="ASSOCIAR"
+                                     process="@form"
+                                     action="#{displinaMB.salvarDisciplinaParaVinculo(disciplina)}"
+
+                                     actionListener="vincularDisciplina.xhtml?faces-redirect=true"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>

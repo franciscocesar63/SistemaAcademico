@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_coordenado.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+
+        <h:form id="formCadastroProfessor" class="menu">
+            <div class="ui-g">
+                <div class="ui-g-6">
+                    <p:panel id="pessoais" header="Dados Pessoais">
+                        <h:panelGrid columns="2" style="border-style: none !important;" >
+                            <p:outputLabel value="Nome:" style="color: black;" for="nome"/>
+                            <p:inputText id="nome" value="#{professorMB.professor.nome}" style="width: 250px"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="CPF:" style="color: black; margin-right: 13px" for="cpf"/>
+                            <p:inputMask id="cpf" mask="999.999.999-99" value="#{professorMB.professor.cpf}" style="width: 130px"/>
+                            <p:outputLabel value="Telefone:"  style="color: black" for="telefone"/>
+                            <p:inputMask id="telefone" mask="(99)9.9999-9999" value="#{professorMB.contato.telefone}" style="width: 130px"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" style="border-style: none !important;" >
+                            <p:outputLabel value="Email:" style="color: black; margin-right: 3px" for="email"/>
+                            <p:inputText id="email" value="#{professorMB.contato.email}" style="width: 250px"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </div>
+                <div class="ui-g-6">
+                    <p:panel id="endereco" header="Endereço">
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="Rua:" style="color: black; margin-right: 20px" for="rua" />
+                            <p:inputText id="rua" value="#{professorMB.endereco.logradouro}" style="width: 250px"/>
+                            <p:outputLabel value="Nº(Casa):" style="color: black; " for="numeroCasa"/>
+                            <p:inputText id="numeroCasa" value="#{professorMB.endereco.numero}" style="width: 50px"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="Bairro:" style="color: black; margin-right: 4px" for="bairro"/>
+                            <p:inputText id="bairro" value="#{professorMB.endereco.bairro}" style="width: 250px"/>
+                            <p:outputLabel  value="CEP:" style="color: black" for="cep"/>
+                            <p:inputMask id="cep" mask="99.999-999" value="#{professorMB.endereco.cep}" style="width: 100px">
+                                <p:ajax event="blur" listener="#{professorMB.all}"
+                                        process="cep"
+                                        update="localidade uf"/>
+                            </p:inputMask>
+                        </h:panelGrid>
+                        <h:panelGrid columns="4" style="border-style: none !important;" >
+                            <p:outputLabel value="Cidade:" style="color: black" for="localidade"/>
+                            <p:inputText id="localidade" value="#{professorMB.endereco.localidade}" style="width: 250px"/>
+                            <p:outputLabel value="Estado:" style="color: black" for="uf" />
+                            <p:inputText id="uf" value="#{professorMB.endereco.uf}" style="width: 50px"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </div>
+            </div>
+
+            <div class="ui-g" align="center">
+                <div class="ui-g-12">
+                    <p:panel id="conta" header="Conta">
+
+                        <p:commandButton value="SALVAR" 
+                                         process="@form"
+                                         update="@all"
+                                         resetValues="true"
+                                         styleClass="botao"
+                                         actionListener="#{professorMB.salvarProfessor()}"
+                                         />
+                        <p:commandButton value="LIMPAR" 
+                                         resetValues="true" 
+                                         update="@form" 
+                                         process="@this"
+                                         styleClass="botao"
+                                         />
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+        <h:form id="formListaProfessor" style=" margin: 5px">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{professorMB.all}" var="professor"
+                         paginatorPosition="bottom" lazy="true"
+                         paginator="true" rows="5">
+
+                <f:facet name="header">Lista de Professores</f:facet>
+                <p:column headerText="Nome">
+                    #{professor.nome}
+                </p:column>
+                <p:column headerText="CPF" style="width: 115px">
+                    #{professor.cpf}
+                </p:column>
+                <p:column headerText="Email">
+                    #{professor.contato.email}
+                </p:column>
+
+                <p:column headerText="Cidade - UF">
+                    #{professor.endereco.localidade} - #{professor.endereco.uf}
+                </p:column>
+                <p:column headerText="Telefone" style="width: 125px">
+                    #{professor.contato.telefone}
+                </p:column>
+                <p:column headerText="Ação" >
+                    <p:commandButton value="EDITAR" 
+                                     update="formCadastroProfessor"
+                                     actionListener="#{professorMB.setProfessor(professor)}"
+                                     process="@form"
+                                     />
+                    <p:commandButton value="EXCLUIR"
+                                     process="@form"
+                                     actionListener="#{professorMB.remover(professor)}"
+                                     update="@form"
+                                     />
+                    <p:commandButton value="VINCULAR"
+                                     process="@form"
+                                     action="#{professorMB.salvarProfessorParaVinculo(professor)}"
+                                     />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>

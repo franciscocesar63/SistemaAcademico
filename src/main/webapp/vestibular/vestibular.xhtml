@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Vestibular</title>
+        <link rel="stylesheet" href="../resources/css/vestibular.css" />
+    </h:head>
+    <h:body>
+        <div>
+            <img src="../resources/imagens/logofafic.png" alt="Logo" />
+            <div>
+                <h2>Cursos Ofertados</h2>
+                <ul>
+                    <p:dataTable emptyMessage="Nenhum Curso Disponivel" value="#{vestibularMB.all}" var="vestibular">
+
+                        <p:column>
+                            <li>#{vestibular.curso}</li>
+                        </p:column>
+                    </p:dataTable>
+
+                </ul>
+            </div>
+            <div>
+                <h2>Sobre a Instituição</h2>
+                <p style="text-align: justify;">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
+                    a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining
+                    essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                    and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </p>
+            </div>
+            <div>
+                <h2>Receber Mais Informações por Email</h2>
+                <form>
+                    <label>Nome:</label>
+                    <input  type="text"/> <br/>
+                    <label>Email:</label>
+                    <input  type="email"/> <br/>
+                    <label>Curso:</label>
+                    <input  type="text"/> <br/>
+                    <label>Telefone:</label>
+                    <input  type="text"/> <br/>
+                    <button style="background-color: green;
+                            text-align: center; width: 150px; height: 30px; text-align: center;
+                            margin-top: 10px; color: white">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </h:body>
+</html>

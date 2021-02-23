@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Sistema Escolar</title>
+    </h:head>
+    <h:body>
+        <h:form>  
+            <div style="background-color: #1f89ce; border-radius: 5px; height: 80px;">
+                <h2> <p:outputLabel value="Sistema Escolar" style="color: #ffffff; margin-left: 10px;"/></h2>
+            </div>
+            <hr/>
+            <p:growl id="messages"/>
+            <p:menubar>
+                
+                <p:menuitem value="Inicio" process="@this" url="index.xhtml?faces-redirect=true" />
+                
+                <p:menuitem value="Coordenador" process="@this" url="coordenador.xhtml">
+
+                </p:menuitem>
+                <p:menuitem value="Curso" process="@this" url="curso.xhtml">"
+
+                </p:menuitem>
+                <p:menuitem value="Usuários" process="@this" url="usuarios.xhtml">"
+
+                </p:menuitem>
+                <p:menuitem value="Vestibular" process="@this" url="vestibular.xhtml">"
+
+                </p:menuitem>
+                <f:facet name="options">
+                    <p:splitButton id="basic" value="LOGOUT" action="#{loginMB.logout()}"> </p:splitButton>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+        <ui:insert name="conteudo"></ui:insert>
+    </h:body>
+</html>
+

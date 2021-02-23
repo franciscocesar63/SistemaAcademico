@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_coordenado.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+
+        <h:form>
+            <p:selectOneMenu id="console" value="#{matriculaMB.filtro}" style="width:125px">
+                <f:selectItem itemLabel="Selecione" itemValue="" />
+                <f:selectItem itemLabel="Ativas" itemValue="true" />
+                <f:selectItem itemLabel="Inativas" itemValue="false" />
+            </p:selectOneMenu>
+            <p:commandButton value="Filtrar"
+                             resetValues="true" 
+                             update="tableAlunos"
+                             process="@all"
+                             actionListener="#{matriculaMB.filtrarLista()}"
+                             styleClass="botao"
+                             style="background-color: #3282f2;
+                             text-align: center; width: 200px; height: 40px; text-align: center;"/>
+            <br/>
+            <br/>
+            <br/>
+            <p:dataTable id="tableAlunos" emptyMessage="Nenhum registro encontrado" 
+                         value="#{matriculaMB.matriculas}" var="matricula"
+                         paginatorPosition="bottom"
+                         paginator="true" rows="5">
+
+                <f:facet name="header">Alunos Matriculados</f:facet>
+                <p:column headerText="Matricula">
+                    #{matricula.matricula}
+                </p:column>
+                <p:column headerText="Aluno" style="width: 200px">
+                    #{matricula.aluno.nome}
+                </p:column>
+                <p:column headerText="Turma" style="width: 200px">
+                    #{matricula.turma.sigla}
+                </p:column>
+                <p:column headerText="Data de Matrícula" style="width: 200px">
+                    #{matricula.data}
+                </p:column>
+                <p:column headerText="Curso" style="width: 200px">
+                    #{matricula.curso.nome}
+                </p:column>
+                <p:column headerText="Ativar/Desativar" style="width: 200px">
+                    <p:commandButton value="Ativar/Desativar"
+                                     actionListener="#{matriculaMB.desativarMatricula(matricula)}"
+                                     process="@all"
+                                     update="tableAlunos"
+                                     styleClass="botao"
+                                     style="background-color: #3282f2;
+                                     text-align: center; width: 200px; height: 40px; text-align: center;"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+
+    </ui:define>
+</ui:decorate>

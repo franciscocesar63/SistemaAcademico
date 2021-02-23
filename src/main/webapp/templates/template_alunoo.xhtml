@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Página do Aluno</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <p:growl id="messages"/>
+        <div style="background-color: #1f89ce; border-radius: 5px; height: 80px;">
+            <h2> <p:outputLabel value="Sistema Escolar" style="color: #ffffff; margin-left: 10px;"/></h2>
+        </div>
+        <h:form>
+            <p:menubar style="width: 100%">
+                <p:menuitem value="Inicio" process="@this" url="index.xhtml">
+
+                </p:menuitem>
+                <p:menuitem value="Ver Notas" process="@this" url="visualizar-notas.xhtml">
+
+                </p:menuitem>
+                
+                <f:facet name="options">
+                    <p:splitButton id="basic" value="LOGOUT" action="#{loginMB.logout()}"> </p:splitButton>
+                </f:facet>
+
+            </p:menubar>
+        </h:form>
+        <p:layoutUnit position="center">
+            <ui:insert name="conteudo" ></ui:insert>
+        </p:layoutUnit>
+        <p:ajaxStatus onstart="PF('statusDialog').show();"
+                      onsuccess="PF('statusDialog').hide();"/>
+        <p:dialog widgetVar="statusDialog" draggable="false" closable="false"
+                  resizable="false" showHeader="false">
+            <p:graphicImage name="/imagens/gif2.gif" style="width: 50px"/>
+        </p:dialog>
+    </h:body>
+</html>

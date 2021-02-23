@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_direto.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+        <h:form id="formListaCoordenador" style="margin: 5px">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{loginMB.all}" var="pessoa"
+                         paginatorPosition="bottom"
+                         paginator="true" rows="3">
+
+                <f:facet name="header">Lista de Usuários no Sistema</f:facet>
+                <p:column headerText="Nome">
+                    #{pessoa.nome}
+                </p:column>
+                <p:column headerText="CPF" style="width: 115px">
+                    #{pessoa.cpf}
+                </p:column>
+                <p:column headerText="Email">
+                    #{pessoa.contato.email}
+                </p:column>
+                <p:column headerText="Perfil" filterBy="#{pessoa.tipoPessoa}"
+                          filterMatchMode="contains" style="width: 125px; text-align: center">
+                    #{pessoa.tipoPessoa}
+                </p:column>
+                <p:column headerText="Rua">
+                    #{pessoa.endereco.logradouro}
+                </p:column>
+                <p:column headerText="Cidade - UF">
+                    #{pessoa.endereco.localidade} - #{pessoa.endereco.uf}
+                </p:column>
+                <p:column headerText="Telefone" style="width: 125px">
+                    #{pessoa.contato.telefone}
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>
+

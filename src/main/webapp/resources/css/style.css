@@ -1,0 +1,36 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17/03/2020, 23:01:56
+    Author     : Filipe
+*/
+
+.link-vestibular {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+div.link-vestibular a {
+    text-decoration: none;
+    color: #3282f2;
+}
+
+div.link-vestibular a:hover {
+    background-color:#3282f2;
+    color: white;
+    padding: 5px;
+}
+
+.btn-excluir{
+    background-color: red !important;
+}
+.btn-excluir:hover{
+    background-color: coral !important;
+}
+
+/*Formatando Tela de Vestibular*/
+
+

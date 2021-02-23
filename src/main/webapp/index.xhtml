@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+                 template="/templates/template_visitante.xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+        <ui:define name="conteudo">
+
+        </ui:define>
+    </ui:decorate>
+    <h:body>
+
+        <p:outputLabel value="Sistema Escolar" style="font-size: larger"/>
+
+        <h:form> 
+            <p:growl />
+            <h:panelGrid columns="2" cellspacing="2" cellpadding="2">
+                <p:outputLabel value="login" for="login"/>
+                <p:inputText value="#{loginMB.login}" 
+                             required="true" 
+                             id="login" 
+                             requiredMessage="O campo login é obrigatório"/>
+                <p:outputLabel value="senha" for="senha"/>
+                <p:password value="#{loginMB.senha}" 
+                            required="true" 
+                            id="senha" 
+                            requiredMessage="O campo senha é obrigatório"/>
+                <p:commandButton value="enviar"
+                                 update="@form"
+                                 actionListener="#{loginMB.logar()}"/>
+            </h:panelGrid>
+
+        </h:form>
+        <p:dialog header="Redefinição de senha" 
+                  resizable="false"
+                  widgetVar="dialogRedSenha">
+
+            <br/>
+            <p:outputLabel value="Redefinição de senha Necessária"/>
+            <br/>
+            <h:form id="formRedSenha" prependId="false">
+                <h:panelGrid columns="2" cellpadding="5" cellspacing="5">
+                    <p:outputLabel value="Nova Senha"/> 
+                    <p:password  value="#{loginMB.senha}"
+                                 feedback="true"
+                                 promptLabel="Digite sua Senha"
+                                 weakLabel="Fraca"
+                                 goodLabel="Média"
+                                 strongLabel="Forte"
+                                 label="Digite Sua Senha"/>
+                    <p:outputLabel value="Repita a Senha"/> 
+                    <p:password  value="#{loginMB.confirmaSenha}"
+                                 feedback="true"
+                                 promptLabel="Digite sua Senha"
+                                 weakLabel="Fraca"
+                                 goodLabel="Média"
+                                 strongLabel="Forte"
+                                 label="Digite Sua Senha"/>
+                    <p:commandButton value="Atualizar Senha"
+                                     actionListener="#{loginMB.updateSenha()}"
+                                     update="@form"/>
+                </h:panelGrid> 
+            </h:form>
+
+        </p:dialog>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show();"
+                      onsuccess="PF('statusDialog').hide();"/>
+        <p:dialog widgetVar="statusDialog" draggable="false" closable="false"
+                  resizable="false" showHeader="false">
+            <p:graphicImage name="/imagens/gif2.gif" style="width: 50px"/>
+        </p:dialog>
+    </h:body>    
+
+</html>
+

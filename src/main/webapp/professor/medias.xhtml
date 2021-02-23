@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_professo.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+        <h:form id="formListaAlun" style="margin: 5px">
+
+            <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                         value="#{alunoDisciplinaMB.disciplinasVinculadas}" var="disciplina"
+                         paginatorPosition="bottom" lazy="true"
+                         paginator="true" rows="10">
+                <f:facet name="header">Lista de Disciplinas</f:facet>
+                <p:column headerText="ID">
+                    #{disciplina.disciplina.id}
+                </p:column>
+                <p:column headerText="Período">
+                    #{disciplina.disciplina.nome}
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Selecionar"
+                                     actionListener="#{alunoDisciplinaMB.setDisciplinaSelect(disciplina.disciplina.nome)}"
+                                     process="@all"
+                                     styleClass="botao"
+                                     />
+                    <p:commandButton value="Ver Alunos"
+                                     process="@all"
+                                     update=":formListaAlun:formMedias"
+                                     styleClass="botao"
+                                     />
+                </p:column>
+            </p:dataTable>
+            <p:dataTable emptyMessage="Nenhum registro encontrado"
+                         id="formMedias" value="#{alunoDisciplinaMB.alunoByDisciplina}" 
+                         var="aluno">
+                <p:column headerText="Aluno">
+                    #{aluno.alunoMatriculado.nome}
+                </p:column>
+                <p:column headerText="Média">
+                    #{aluno.media}
+                </p:column>
+                <p:column headerText="Situação">
+                    #{aluno.situacao}
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="/templates/template_coordenado.xhtml"
+
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="conteudo">
+
+            
+                <h:form id="formMatricula">
+                    <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                                 value="#{alunoMB.all}" var="aluno"
+                                 paginatorPosition="bottom"
+                                 paginator="true" rows="5">
+
+                        <f:facet name="header">Selecione o Aluno</f:facet>
+                        <p:column headerText="Nome">
+                            #{aluno.nome}
+                        </p:column>
+                        <p:column headerText="Email" style="width: 200px">
+                            #{aluno.contato.email}
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Selecionar"
+                                             resetValues="true" 
+                                             actionListener="#{matriculaMB.setAluno(aluno)}"
+                                             styleClass="botao"
+                                             style="background-color: #3282f2;
+                                             text-align: center; width: 200px; height: 40px; text-align: center;"/> 
+                        </p:column>
+                    </p:dataTable> 
+                    <br/>
+                    <br/>
+                    <br/>
+                    <p:dataTable emptyMessage="Nenhum registro encontrado" 
+                                 value="#{turmaMB.all}" var="turma"
+                                 paginatorPosition="bottom"
+                                 paginator="true" rows="5">
+
+                        <f:facet name="header">Selecione a Turma</f:facet>
+                        <p:column headerText="Príodo">
+                            #{turma.periodo}
+                        </p:column>
+                        <p:column headerText="Sigla" style="width: 200px">
+                            #{turma.sigla}
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Selecionar"
+                                             resetValues="true" 
+                                             actionListener="#{matriculaMB.setTurma(turma)}"
+                                             styleClass="botao"
+                                             style="background-color: #3282f2;
+                                             text-align: center; width: 200px; height: 40px; text-align: center;"/> 
+                        </p:column>
+                    </p:dataTable>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <p:commandButton value="SALVAR" 
+                                     resetValues="true" 
+                                     actionListener="#{matriculaMB.salvar()}"
+                                     update="@all" 
+                                     process="@this @form"
+                                     styleClass="botao"
+                                     style="background-color: #3282f2;
+                                     text-align: center; width: 200px; height: 40px; text-align: center;"/>
+                </h:form>
+    </ui:define>
+</ui:decorate>
